@@ -12,17 +12,20 @@ public class SparkContextProvider {
 
     private SparkConf sparkConf;
     private JavaSparkContext sparkContext;
+    private String jarFile;
 
-    private SparkContextProvider() {
+    private SparkContextProvider() {}
+
+    private SparkContextProvider(String jarFile) {
         this.sparkConf = new SparkConf().setAppName("JavaSparkPi");
-        this.sparkConf.setJars(new String[]{""});
+        this.sparkConf.setJars(new String[]{jarFile});
         this.sparkContext = new JavaSparkContext(sparkConf);
     }
 
-    public static boolean init() {
+    public static boolean init(String jarFile) {
         try {
             if (INSTANCE == null) {
-                INSTANCE = new SparkContextProvider();
+                INSTANCE = new SparkContextProvider(jarFile);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

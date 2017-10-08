@@ -2,6 +2,9 @@ package io.radanalytics.examples.vertx;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import org.apache.log4j.*;
 
@@ -10,6 +13,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -18,6 +22,31 @@ import io.vertx.ext.web.handler.StaticHandler;
 public class SparkPiVerticle extends AbstractVerticle {
 
   private static final Logger log = Logger.getRootLogger();
+  Properties prop = null;
+
+
+  // vertx-config has more exotic options using Futures 
+  // and AsyncResponse handlers, but this is all we need
+  private String loadJarProperty() {
+
+    if (null==prop) {
+     prop = new Properties();
+    }
+
+    String jarFile = "";
+
+    try {
+      InputStream inputStream = getClass().getClassLoader()
+                   .getResourceAsStream("sparkpi.properties");
+      prop.load(inputStream);
+      jarFile = prop.getProperty("sparkpi.jarfile");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return jarFile;
+
+  }
 
   @Override
   public void start(Future<Void> fut) {
@@ -31,13 +60,13 @@ public class SparkPiVerticle extends AbstractVerticle {
       }
     });
 
-    String jarFile = config().getString("sparkpi.jarfile");
+    String jarFile = this.loadJarProperty();
     log.info("SparkPi submit jar is: "+jarFile);
 
     // init our Spark context
     if (!SparkContextProvider.init(jarFile)) {
         // masterURL probably not set
-        log.error("This application is designed to be run as an oshinko S2I.");
+        log.error("This application is intended to be run as an oshinko S2I.");
         vertx.close();
         System.exit(1);
     }
@@ -54,7 +83,8 @@ public class SparkPiVerticle extends AbstractVerticle {
         .createHttpServer()
         .requestHandler(router::accept)
         .listen(
-            config().getInteger("http.port", 8080),
+            // here users can make use of vertx-config if they like
+            this.config().getInteger("http.port", 8080),
             result -> {
               if (result.succeeded()) {
                 fut.complete();

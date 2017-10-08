@@ -7,21 +7,28 @@
   <artifactId>sparkpi-app</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <vertx.version>3.4.2</vertx.version>
+    <spark.version>2.2.0</spark.version>
+    <doc.skip>true</doc.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
-      <version>3.3.3</version>
+      <version>${vertx.version}</version>
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
-      <version>3.3.3</version>
+      <version>${vertx.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_2.11</artifactId>
-      <version>2.2.0</version>
+      <version>${spark.version}</version>
     </dependency>
   </dependencies>
 
@@ -80,7 +87,7 @@
     </plugins>
     <resources>
       <resource>
-        <directory>src/main/conf</directory>
+        <directory>src/main/resources</directory>
          <filtering>true</filtering>
       </resource>
     </resources>

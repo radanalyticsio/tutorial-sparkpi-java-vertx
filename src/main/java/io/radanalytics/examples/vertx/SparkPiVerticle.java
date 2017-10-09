@@ -22,19 +22,15 @@ import io.vertx.ext.web.handler.StaticHandler;
 public class SparkPiVerticle extends AbstractVerticle {
 
   private static final Logger log = Logger.getRootLogger();
-  Properties prop = null;
-
+  private Properties prop = null;
 
   // vertx-config has more exotic options using Futures 
-  // and AsyncResponse handlers, but this is all we need
+  // and AsyncResult handlers, but this is all we need
   private String loadJarProperty() {
-
     if (null==prop) {
      prop = new Properties();
     }
-
     String jarFile = "";
-
     try {
       InputStream inputStream = getClass().getClassLoader()
                    .getResourceAsStream("sparkpi.properties");
@@ -43,17 +39,13 @@ public class SparkPiVerticle extends AbstractVerticle {
     } catch (IOException e) {
         e.printStackTrace();
     }
-
     return jarFile;
-
   }
 
   @Override
   public void start(Future<Void> fut) {
-
     // Create a router object.
     Router router = Router.router(vertx);
-
     Runtime.getRuntime().addShutdownHook(new Thread() {
       public void run() {
         vertx.close();
@@ -83,7 +75,7 @@ public class SparkPiVerticle extends AbstractVerticle {
         .createHttpServer()
         .requestHandler(router::accept)
         .listen(
-            // here users can make use of vertx-config if they like
+            // here developers can make use of vertx-config if they like
             this.config().getInteger("http.port", 8080),
             result -> {
               if (result.succeeded()) {

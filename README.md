@@ -1,5 +1,5 @@
 # vertx-sparkpi
-A Java implementation of SparkPi using Vert.x 3 
+A Java implementation of SparkPi using Vert.x 3
 
 This application is an example tutorial for the
 [radanalytics.io](http://radanalytics.io) community. It is intended to be
@@ -32,5 +32,8 @@ You should have access to an OpenShift cluster and be logged in with the
 1. Visit the exposed URL with your browser or other HTTP tool, for example:
    ```bash
    $ curl http://`oc get routes/vertx-sparkpi --template='{{.spec.host}}'`
-   Pi is rouuuughly 3.1335
+   Java Vert.x SparkPi server running. Add the 'sparkpi' route to this URL to invoke the app.
+
+   $ curl http://`oc get routes/vertx-sparkpi --template='{{.spec.host}}'`/sparkpi
+   Pi is roughly 3.140480
    ```

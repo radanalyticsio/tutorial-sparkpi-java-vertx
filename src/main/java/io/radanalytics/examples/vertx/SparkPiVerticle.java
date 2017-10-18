@@ -24,7 +24,7 @@ public class SparkPiVerticle extends AbstractVerticle {
   private static final Logger log = Logger.getRootLogger();
   private Properties prop = null;
 
-  // vertx-config has more exotic options using Futures 
+  // vertx-config has more exotic options using Futures
   // and AsyncResult handlers, but this is all we need
   private String loadJarProperty() {
     if (null==prop) {
@@ -65,6 +65,13 @@ public class SparkPiVerticle extends AbstractVerticle {
     SparkPiProducer pi = new SparkPiProducer();
 
     router.route("/").handler(routingContext -> {
+      HttpServerResponse response = routingContext.response();
+      response
+          .putHeader("content-type", "text/html")
+          .end("Java Vert.x SparkPi server running. Add the 'sparkpi' route to this URL to invoke the app.");
+    });
+
+    router.route("/sparkpi").handler(routingContext -> {
       HttpServerResponse response = routingContext.response();
       response
           .putHeader("content-type", "text/html")

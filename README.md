@@ -37,3 +37,14 @@ You should have access to an OpenShift cluster and be logged in with the
    $ curl http://`oc get routes/vertx-sparkpi --template='{{.spec.host}}'`/sparkpi
    Pi is roughly 3.140480
    ```
+
+### Optional parameter
+
+If you would like to change the number of samples that are used to calculate
+Pi, you can specify them by adding the `scale` argument to your request
+, for example:
+
+```bash
+$ curl http://`oc get routes/vertx-sparkpi --template='{{.spec.host}}'`/sparkpi?scale=10
+Pi is roughly 3.141749
+```

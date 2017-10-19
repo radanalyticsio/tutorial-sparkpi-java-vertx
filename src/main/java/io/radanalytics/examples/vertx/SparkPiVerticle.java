@@ -11,6 +11,7 @@ import org.apache.log4j.*;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.Vertx;
@@ -73,9 +74,14 @@ public class SparkPiVerticle extends AbstractVerticle {
 
     router.route("/sparkpi").handler(routingContext -> {
       HttpServerResponse response = routingContext.response();
+      HttpServerRequest request = routingContext.request();
+      int scale = 2;
+      if (request.params().get("scale") != null) {
+          scale = Integer.parseInt(request.params().get("scale"));
+      }
       response
           .putHeader("content-type", "text/html")
-          .end(pi.GetPi());
+          .end(pi.GetPi(scale));
     });
 
     vertx

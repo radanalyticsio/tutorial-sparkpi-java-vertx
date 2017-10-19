@@ -9,10 +9,10 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 public class SparkPiProducer implements Serializable {
-    public String GetPi() {
+    public String GetPi(int scale) {
         JavaSparkContext jsc = SparkContextProvider.getContext();
 
-        int slices = 2;
+        int slices = scale;
         int n = 100000 * slices;
         List<Integer> l = new ArrayList<Integer>(n);
         for (int i = 0; i < n; i++) {

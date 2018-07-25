@@ -2,7 +2,7 @@
 A Java implementation of SparkPi using Vert.x 3
 
 This application is an example tutorial for the
-[radanalytics.io](http://radanalytics.io) community. It is intended to be
+[radanalytics.io](https://radanalytics.io) community. It is intended to be
 used as a source-to-image (s2i) application.
 
 ## Quick start
@@ -12,7 +12,7 @@ You should have access to an OpenShift cluster and be logged in with the
 
 1. Create the necessary infrastructure objects
    ```bash
-   oc create -f http://radanalytics.io/resources.yaml
+   oc create -f https://radanalytics.io/resources.yaml
    ```
 
 1. Launch vertx-sparkpi

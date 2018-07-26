@@ -49,12 +49,13 @@ public class SparkPiVerticle extends AbstractVerticle {
               scale = Integer.parseInt(request.params().get("scale"));
           }
 
-          pi.getPi(scale)
-                  .subscribe(
-                      res -> response
-                          .putHeader("content-type", "text/html")
-                          .end(res),
-                      routingContext::fail);
+          int computedScale = scale;
+          vertx.<String>rxExecuteBlocking(future -> future.complete(pi.getPi(computedScale)))
+              .subscribe(
+                  res -> response
+                      .putHeader("content-type", "text/html")
+                      .end(res),
+                  routingContext::fail);
 
       });
 
@@ -64,7 +65,7 @@ public class SparkPiVerticle extends AbstractVerticle {
                 if (!SparkContextProvider.init(jarFile)) {
                     throw new RuntimeException("This application is intended to be run as an oshinko S2I.");
                 }
-                pi = new SparkPiProducer(vertx);
+                pi = new SparkPiProducer();
             });
 
       Single<HttpServer> listening = vertx

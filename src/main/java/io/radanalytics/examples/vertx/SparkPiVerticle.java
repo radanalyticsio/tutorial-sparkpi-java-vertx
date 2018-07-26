@@ -59,9 +59,11 @@ public class SparkPiVerticle extends AbstractVerticle {
       });
 
     Single<String> loaded = loadJarProperty()
-            .doOnError(x -> log.error("This application is intended to be run as an oshinko S2I."))
-            .doOnSuccess(s -> {
-                log.info("SparkPi submit jar is: " + s);
+            .doOnSuccess(jarFile -> {
+                log.info("SparkPi submit jar is: " + jarFile);
+                if (!SparkContextProvider.init(jarFile)) {
+                    throw new RuntimeException("This application is intended to be run as an oshinko S2I.");
+                }
                 pi = new SparkPiProducer(vertx);
             });
 

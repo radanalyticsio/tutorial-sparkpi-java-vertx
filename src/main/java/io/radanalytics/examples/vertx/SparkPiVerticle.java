@@ -24,7 +24,7 @@ public class SparkPiVerticle extends AbstractVerticle {
      return Single.just(prop.getString("jarfile"));
     }
 
-    return vertx.fileSystem().rxReadFile("sparkip.json")
+    return vertx.fileSystem().rxReadFile("sparkpi.json")
             .map(Buffer::toJsonObject)
             .doOnSuccess(json -> prop = json)
             .map(json -> json.getString("jarfile"));

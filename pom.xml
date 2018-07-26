@@ -64,6 +64,7 @@
         </executions>
         <configuration>
           <redeploy>true</redeploy>
+          <classifier>vertx</classifier>
           <verticle>io.radanalytics.examples.vertx.SparkPiVerticle</verticle>
         </configuration>
       </plugin>

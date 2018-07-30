@@ -12,7 +12,6 @@ public class SparkContextProvider {
 
     private SparkConf sparkConf;
     private JavaSparkContext sparkContext;
-    private String jarFile;
 
     private SparkContextProvider() {}
 

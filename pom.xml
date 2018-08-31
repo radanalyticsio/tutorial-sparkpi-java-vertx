@@ -11,7 +11,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Be careful modifying these due to joint netty dependencies -->
     <vertx.version>3.5.3</vertx.version>
-    <spark.version>2.3.0</spark.version>
+    <spark.version>2.3.1</spark.version>
     <doc.skip>true</doc.skip>
   </properties>
 

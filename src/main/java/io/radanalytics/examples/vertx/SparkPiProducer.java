@@ -28,7 +28,7 @@ public class SparkPiProducer implements Serializable {
             return (x * x + y * y < 1) ? 1 : 0;
         }).reduce((integer, integer2) -> integer + integer2);
 
-        return "Pi is rouuuughly " + 4.0 * count / n;
+        return "Pi is rouuuughly " + 8.0 * count / n;
 
     }
 }
